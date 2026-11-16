@@ -1,0 +1,16 @@
+# Local Python environment and secrets
+.venv/
+.env
+
+# Python and test caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Generated data, trained models, and MLflow runs
+/data/*.csv
+/model/*.joblib
+/mlruns/
+/mlartifacts/
+/mlflow.db
