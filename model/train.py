@@ -3,12 +3,14 @@ from pathlib import Path
 import joblib
 import numpy as np
 import pandas as pd
+import argparse
 
 import mlflow
 from sklearn.metrics import precision_recall_fscore_support
 
 from sklearn.ensemble import IsolationForest
 from sklearn.metrics import classification_report, confusion_matrix, precision_recall_curve
+
 
 from simulator.generate_data import OUTPUT_PATH
 
@@ -17,7 +19,12 @@ ARTIFACT_PATH = Path(__file__).resolve().with_name("isolation_forest.joblib")
 
 
 def main():
-    train = pd.read_csv(OUTPUT_PATH)
+    parser = argparse.ArgumentParser(description="Train the anomaly detector")
+    parser.add_argument("--train-csv", type=Path, default=OUTPUT_PATH)
+    parser.add_argument("--artifact", type=Path, default=ARTIFACT_PATH)
+    args = parser.parse_args()
+
+    train = pd.read_csv(args.train_csv)
     validation = pd.read_csv(OUTPUT_PATH.parent / "validation.csv")
     test = pd.read_csv(OUTPUT_PATH.parent / "test.csv")
 
@@ -63,9 +70,9 @@ def main():
 
     joblib.dump(
         {"model": model, "features": FEATURES, "threshold": threshold},
-        ARTIFACT_PATH,
+        args.artifact,
     )
-    print(f"\nSaved model to {ARTIFACT_PATH}")
+    print(f"\nSaved model to {args.artifact}")
 
     test_precision, test_recall, test_f1, _ = precision_recall_fscore_support(
         test_labels,
