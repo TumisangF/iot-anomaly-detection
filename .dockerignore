@@ -1,0 +1,7 @@
+*
+!Dockerfile
+!requirements-api.txt
+!api/
+!api/*.py
+!model/
+!model/isolation_forest.joblib

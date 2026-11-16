@@ -14,3 +14,5 @@ __pycache__/
 /mlruns/
 /mlartifacts/
 /mlflow.db
+
+/data/predictions.db
